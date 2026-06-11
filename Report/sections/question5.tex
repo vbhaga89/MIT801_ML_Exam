@@ -1,2 +1,58 @@
 \section{Question 5}
 
+\subsection{Question 5.1}
+
+\subsubsection*{a.}
+
+Principal Component Analysis (PCA) is a dimensionality reduction algorithm that
+tries to find hyperplanes (axis) that preserves the maximum amount of variance. Hence, the goal
+of PCA is to find a set of orthogonal vectors onto which the data can be projected such that
+the variance of the projected data is maximised. These vectors are known as principal components.
+
+\textbf{Objective function:}
+
+Let:
+\[X \in \mathbb{R}^{n \times d},\]
+
+where $n$ is the number of observations, $d$ is the number of original features and $X$
+is a mean centered data matrix. If we want $k$ principal components, we use a projection
+matrix:
+\[W \in \mathbb{R}^{d \times k}.\]
+
+The PCA objective is:
+\[
+\begin{aligned}
+\max_{W \in \mathbb{R}^{d \times k}} \quad & Tr(W^TX^TXW)\\
+\text{subject to} \quad & W^TW = I
+\end{aligned}
+\]
+
+where $W$ contains the first $k$ principal component directions, $W^TW = I$ means the components
+are orthonormal and $Tr(W^TX^TXW)$ is the total variance captured by the $k$ components
+
+\newpage 
+
+\subsubsection*{b.}
+
+Figure \ref{fig:pca} illustrates the graph of the explained variance ratio of each component
+of PCA that was applied on the churn training data:
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{Images/pca.png}
+    \caption{Explained Variance of each Principal Component}
+    \label{fig:pca}
+\end{figure}
+
+From Figure \ref{fig:pca}, it can be seen that each component has a decent level of explained
+variance. As a result, the minimum number of components needed to retain at least 90\% of the total
+variance is 4 components. For this dataset, PCA does not reduce the number of features if
+at least 90\% of the variance is required to be retained.
+
+\subsubsection*{c.}
+
+PCA should be fitted after the train/test split. The principal components must be obtained
+purely based on the training data alone and then only applied to the test set when testing is
+done. If the training and test set is used to find the principal components this leads to 
+data leakage because the variance from the test set plays a role which is something that would
+not be present during training in the real world.

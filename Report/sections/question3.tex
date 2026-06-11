@@ -88,25 +88,29 @@ After running the grid search, the best parameter configuration was found to be:
 \newpage
 
 \begin{lstlisting}[language=Python, caption={Grid search for RBF-SVM hyperparameter tuning}]
-from sklearn.model_selection import GridSearchCV, StratifiedKFold
+rom sklearn.model_selection import GridSearchCV, StratifiedKFold
 
+# Define values to search C and gamma
 param_grid = {
     'C': [0.1, 1, 10],
     'gamma': [0.01, 0.1, 1]
 }
 
+# Create model
 svm = SVC(
     kernel="rbf",
     probability=True,
     random_state=42
 )
 
+# Define cross validation with stratification (ensures class balance in splits)
 cv = StratifiedKFold(
     n_splits=5,
     shuffle=True,
     random_state=42
 )
 
+# Create grid search class using AUC of ROC curve as scoring metric
 grid = GridSearchCV(
     estimator=svm,
     param_grid=param_grid,
@@ -116,6 +120,5 @@ grid = GridSearchCV(
 )
 
 grid.fit(X_train, y_train)
-
 print("Best parameters:", grid.best_params_)
 \end{lstlisting}

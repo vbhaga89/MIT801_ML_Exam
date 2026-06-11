@@ -1,0 +1,68 @@
+\section{Question 6}
+
+\subsection{Question 6.1}
+
+\subsubsection*{a.}
+
+The True Positive Rate (TPR) is defined as follows:
+
+\[TPR = \frac{TP}{TP + FN},\]
+
+where $TP$ is the True Positives and $FN$ is the False Negatives. It is also known as
+the Recall or Sensitivity. 
+
+The False Positive Rate (FPR) is defined as follows:
+
+\[FPR = \frac{FP}{FP + TN},\]
+
+where $FP$ is the False Positives and $TN$ is the True Negatives.
+
+The Receiver Operating Characteristic (ROC) curve, plots the TPR against the FPR across
+varying classification thresholds. Moving along the curve from left to right represents decreasing the threshold from
+$+\infty$ to $-\infty$. Hence, a low threshold catches more churners but also results in more
+false alarms. A higher threshold reduces false alarms but ends up missing more actual churners.
+
+\subsubsection*{b.}
+
+An AUC of 0.5 represents a random classifier. Hence it is no better than simply randomly guessing.
+In terms of the churn detection task it represents a classifier that has no real ability to 
+discriminate churners from non-churners.
+
+Whereas, an AUC of 1 represents a perfect classifier. In terms of the churn detection task
+this would indicate a classifier that is able to perfectly discriminate between non-churners
+and churners.
+
+\subsubsection*{c.}
+
+In this particular case, due to the constraint on the amount of retention offers that can be
+sent, precision would be a better metric than AUC. AUC is good for evaluating a model's 
+overall performance across thresholds but it does not directly tell the company how many of the
+selected clients will actually churn. Precision does this by indicating which of the users
+will actually churn from the all the predicted churners.
+
+In this case the Precision would be:
+
+\[Precision = \frac{TP}{TP + FP} = \frac{60}{60 + 150} \approx 0.286\]
+
+This would indicate that of the flagged customers, only 28.6\% were actual churners. By optimising
+the Precision at a certain Recall level, one can reduce the false alarms and ensure the retention 
+offers stay below the threshold.
+
+\subsection{Question 6.2}
+
+Figure \ref{fig:roc} illustrates the ROC curves of the SGD logistic regression, RBF-SVM and
+Ridge logistic regression models. The AUC score for each model is also shown.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{Images/roc.png}
+    \caption{ROC Curves of the three Trained Models}
+    \label{fig:roc}
+\end{figure}
+
+From Figure \ref{fig:roc}, the Ridge logistic regression model has the best overall performance
+across threshold since it has the highest AUC of 0.611. Hence, this would be the model that should
+be deployed since it have the best ability out of the three models to rank churners above
+non-churners across different classification thresholds. However, the AUC value is still quite
+low and hence, this is a weak classifier. Better features, more data and/or more fine-tuning would be required 
+before deploying such a model in a real-world churn prediction situation.
