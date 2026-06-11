@@ -1,0 +1,197 @@
+\section*{Appendix}
+
+In addition to the code blocks attached in the Appendix, the complete code can be found at the
+following URL: \href{https://github.com/vbhaga89/MIT801_ML_Exam}{GitHub Repository}
+
+\subsection*{Question 3.2 c}
+
+\begin{lstlisting}[language=Python, caption={Grid search for RBF-SVM hyperparameter tuning}]
+from sklearn.model_selection import GridSearchCV, StratifiedKFold
+
+# Define values to search C and gamma
+param_grid = {
+    'C': [0.1, 1, 10],
+    'gamma': [0.01, 0.1, 1]
+}
+
+# Create model
+svm = SVC(
+    kernel="rbf",
+    probability=True,
+    random_state=42
+)
+
+# Define cross validation with stratification (ensures class balance in splits)
+cv = StratifiedKFold(
+    n_splits=5,
+    shuffle=True,
+    random_state=42
+)
+
+# Create grid search class using AUC of ROC curve as scoring metric
+grid = GridSearchCV(
+    estimator=svm,
+    param_grid=param_grid,
+    scoring='roc_auc',
+    cv=cv,
+    n_jobs=-1
+)
+
+grid.fit(X_train, y_train)
+print("Best parameters:", grid.best_params_)
+\end{lstlisting}
+
+\newpage
+
+\subsection*{Question 4.2}
+
+\begin{lstlisting}[language=Python, caption={MSE, cross-entropy and hinge loss functions' calculations and plots}]
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Prediction scores from -2 to 2
+y_pred = np.linspace(-2, 2, 500)
+
+# Positive example
+y_true = 1
+
+# Sigmoid function for cross-entropy
+def sigmoid_func(z):
+    return 1 / (1 + np.exp(-z))
+
+# Loss functions
+mse = (y_pred - y) ** 2
+cross_entropy = -np.log(sigmoid_func(y_pred))
+hinge = np.maximum(0, 1 - y * y_pred)
+
+# Plot
+plt.figure(figsize=(8, 5))
+
+plt.plot(y_pred, mse, label="MSE Loss")
+plt.plot(y_pred, cross_entropy, label="Cross-Entropy Loss")
+plt.plot(y_pred, hinge, label="Hinge Loss")
+
+plt.xlabel(r"Prediction score ($\hat{y})$")
+plt.ylabel("Loss")
+plt.title("MSE, Cross-Entropy, and Hinge Loss for a Positive Example (y = 1)")
+plt.legend()
+plt.grid(True)
+
+plt.show()
+\end{lstlisting}
+
+\newpage
+
+\subsection*{Question 5.1 b.}
+
+\begin{lstlisting}[language=Python, caption={PCA and Explained Variance Ratio plot}]
+from sklearn.decomposition import PCA
+
+# Fit PCA on scaled training data
+pca = PCA()
+X_train_pca = pca.fit_transform(X_train)
+
+# Explained variance ratios
+explained_var = pca.explained_variance_ratio_
+
+# Get cumulative variances
+cumulative_var = np.cumsum(explained_var)
+
+# Minimum number of components needed for at least 90% variance
+n_components_90 = np.argmax(cumulative_var >= 0.90) + 1
+
+print("Explained variance ratio:", explained_var)
+print("Cumulative explained variance:", cumulative_var)
+print("Number of components for at least 90% variance:", n_components_90)
+
+# Plot explained variance ratio
+plt.figure(figsize=(8, 5))
+
+# Plot the explained variance of each component
+plt.bar(
+    range(1, len(explained_var) + 1),
+    explained_var,
+    label="Individual explained variance",
+    color='orange'
+)
+
+# Plot the cumalative variance as you add components
+plt.plot(
+    range(1, len(cumulative_var) + 1),
+    cumulative_var,
+    marker="o",
+    label="Cumulative explained variance"
+)
+
+# Plot threshold line
+plt.axhline(y=0.90, linestyle="--", color='red', label="90% threshold")
+
+plt.xlabel("Principal component")
+plt.ylabel("Explained variance ratio")
+plt.title("PCA Explained Variance Ratio")
+plt.xticks(range(1, len(explained_var) + 1))
+plt.legend()
+plt.grid(True)
+plt.show()
+\end{lstlisting}
+
+\newpage
+
+\subsection*{Question 6.2}
+
+\begin{lstlisting}[language=Python, caption={ROC Curve and AUC for all 3 models}]
+from sklearn.metrics import roc_curve, roc_auc_score
+from sklearn.linear_model import LogisticRegression
+
+# Define Models
+sgd_logistic = SGDClassifier(
+    loss="log_loss",
+    learning_rate="optimal",
+    max_iter=200,
+    random_state=42
+)
+rbf_svm = SVC(
+    kernel="rbf",
+    C=1.0,
+    gamma="scale",
+    probability=True,
+    random_state=42
+)
+ridge_logistic = LogisticRegression(
+    penalty='l2',
+    solver='lbfgs',
+    max_iter=1000,
+    random_state=42
+)
+
+models = {
+    "SGD Logistic Regression": sgd_logistic,
+    "RBF-SVM": rbf_svm,
+    "Ridge Logistic Regression": ridge_logistic
+}
+
+# Fit the Models and Plot ROC with AUC score
+plt.figure(figsize=(8, 6))
+
+for name, model in models.items():
+    model.fit(X_train, y_train)
+    # Get predicted probalities
+    y_test_proba = model.predict_proba(X_test)[:, 1]
+
+    # Calculate ROC curve and AUC
+    fpr, tpr, thresholds = roc_curve(y_test, y_test_proba) 
+    roc_auc = roc_auc_score(y_test, y_test_proba)
+
+    # Plot ROC curve
+    plt.plot(fpr, tpr, label=f"{name} AUC = {roc_auc:.3f}")
+
+# Add Baseline of AUC = 0.5 curve
+plt.plot([0, 1], [0, 1], linestyle="--", label="Random Classifier AUC = 0.500")
+# Plot the ROC curve
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.title("ROC Curve Comparison for Churn Models")
+plt.legend()
+plt.grid(True)
+plt.show()
+\end{lstlisting}

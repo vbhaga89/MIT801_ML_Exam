@@ -19,14 +19,22 @@
 \usepackage{setspace}
 \usepackage{import}
 \usepackage{titling}
+\usepackage{xcolor}
 \usepackage{listings}
 
 \lstset{
-    basicstyle=\ttfamily\small,
+    language=Python,
+    basicstyle=\ttfamily\scriptsize,
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{gray}\itshape,
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
     frame=single,
     breaklines=true,
     showstringspaces=false,
-    captionpos=t
+    captionpos=t,
+    tabsize=4
 }
 
 % Bibliography
@@ -90,5 +98,9 @@
 \import{sections/}{question5.tex}
 
 \import{sections/}{question6.tex}
+
+\newpage
+
+\import{sections/}{appendix.tex}
 
 \end{document}
