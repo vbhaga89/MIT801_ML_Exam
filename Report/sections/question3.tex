@@ -1,0 +1,121 @@
+\section{Question 3}
+
+\subsection{Question 3.1}
+
+\subsubsection*{a.}
+
+The hard-margin SVM primal optimisation problem is given as follows:
+
+\[
+\begin{aligned}
+\min_{w,b} \quad & \frac{1}{2} ||w||^2\\
+\text{subject to} \quad & y_i(w^T x_i + b) \geq 1, \quad i = 1,2,\ldots,n
+\end{aligned}
+\]
+
+The margin is inversely related to the length of $w$. The distance between the decision
+boundary and the closest points is:
+\[\frac{1}{||w||}\]
+
+Therefore, the full margin width is given by:
+\[\frac{2}{||w||}\]
+
+\subsubsection*{b.}
+
+The support vectors are the training points that are closest to the hyperplane that separates
+the classes. The margin is determined based on these points of which the margin boundaries lie
+exactly on these points. Hence, the support vectors determine the position and orientation of the
+maximum margin hyperplane that best separates the classes. These points only matter because
+they directly affect the margin whereas points far from the margin do not affect the optimal 
+separating hyperplane if they are moved or removed.
+
+\subsubsection*{c.}
+
+For the soft margin objective, the slack variable measures how much each instance is allowed
+to violate the margin. As a result, there are two conflicting objectives in that as we want
+to reduce margin violations while ensuring the biggest margin. The $C$ hyperparameter allows
+us to define the trade-off between these two objectives. By increasing C, the model 
+penalises margin violations more strongly, thus resulting in a smaller margin but less
+margin violations. Thus, effectively, it reduces the size of the boundary.
+
+\subsection{Question 3.2}
+
+\subsubsection*{a.}
+
+The RBF kernel maps the input data into an infinite-dimensional feature space. This is because
+the mapping is performed by measuring the similarity between two data points based on their
+Euclidean distance. Its mathematical definition is called the Taylor series expansion which allows
+the $exp$ term in the kernel to be written as infinite sum of polynomial terms.
+
+The main benefit is that it allows the SVM to learn non-linear decision boundaries observed in the
+original input feature space. This is done by transforming the input feature space into a higher
+dimensional feature space in which a linear decision boundary can be formed. This is especially
+useful for the churn data because it is often very unlikely that features and churn have a 
+linear relationship. For example, a customer may only churn if their monthly bill is high \textbf{and}
+they have many support calls \textbf{and} they do not have a fixed contract. The RBF kernel
+hence allows the SVM to capture these interactions between features without having to manually
+create these interactions.
+
+\subsubsection*{b.}
+
+The \textbf{gamma='scale'} computes the following:
+
+\[\gamma = \frac{1}{d \times Var(X)}\]
+
+where $d$ is the number of features and $Var(X)$ is the variance of the training data.
+
+Since the data was previously standardised, the standard deviation and hence variance of the
+data would be 1. As a result $\gamma = \frac{1}{4}$ since there are 4 features.
+
+The gamma parameter defines how far the influence of a single training example reaches. High gamma
+values represent 'close' whereas low values represent 'far'. Hence, very large gamma values
+result in a decision boundary that will be very tight around individual data point (complex boundary). This leads
+to an increased risk of overfitting. A very small gamma value results in smoother and less complex decision boundaries. This
+leads to an increased risk of underfitting.
+
+\subsubsection*{c.}
+
+The code used to execute the grid seach can be seen on the following page in Listing 1. The \emph{GridSearchCV}
+class was used from \emph{sklearn}. In addition, \emph{StratifiedKFold} was also used
+to ensure splits have the correct class distributions. Lastly the best parameter configuration
+was based on the AUC of the ROC curve.
+
+After running the grid search, the best parameter configuration was found to be:
+
+\[[C = 0.1, \gamma = 1]\]
+
+
+\newpage
+
+\begin{lstlisting}[language=Python, caption={Grid search for RBF-SVM hyperparameter tuning}]
+from sklearn.model_selection import GridSearchCV, StratifiedKFold
+
+param_grid = {
+    'C': [0.1, 1, 10],
+    'gamma': [0.01, 0.1, 1]
+}
+
+svm = SVC(
+    kernel="rbf",
+    probability=True,
+    random_state=42
+)
+
+cv = StratifiedKFold(
+    n_splits=5,
+    shuffle=True,
+    random_state=42
+)
+
+grid = GridSearchCV(
+    estimator=svm,
+    param_grid=param_grid,
+    scoring='roc_auc',
+    cv=cv,
+    n_jobs=-1
+)
+
+grid.fit(X_train, y_train)
+
+print("Best parameters:", grid.best_params_)
+\end{lstlisting}
