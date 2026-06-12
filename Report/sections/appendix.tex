@@ -60,9 +60,9 @@ def sigmoid_func(z):
     return 1 / (1 + np.exp(-z))
 
 # Loss functions
-mse = (y_pred - y) ** 2
+mse = (y_pred - y_true) ** 2
 cross_entropy = -np.log(sigmoid_func(y_pred))
-hinge = np.maximum(0, 1 - y * y_pred)
+hinge = np.maximum(0, 1 - y_true * y_pred)
 
 # Plot
 plt.figure(figsize=(8, 5))
