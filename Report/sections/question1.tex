@@ -20,7 +20,7 @@ where
 
 This is a classification problem because the task at hand is predicting whether a customer stayed or 
 left the telecommunications company. Therefore, it is a binary classification problem since there are
-only two possible outcomes (not predicting a continuous value which regression is used for).
+only two possible outcomes (we are not predicting a continuous value which regression is used for).
 
 \subsection{Question 1.2}
 
@@ -37,7 +37,7 @@ which outputs the following:
     \label{tab:mean_by_churn}
     \begin{tabular}{cc}
         \hline
-        \textbf{Churn} & \textbf{Mean} \\
+        \textbf{Churn} & \textbf{Mean (in Rands)} \\
         \hline
         \text{non-churners} & 109.10 \\
         \text{churners} & 104.07 \\
@@ -50,7 +50,7 @@ which outputs the following:
 Because raw accuracy can give a false sense of the model's performance. For example if the
 churn percentage is only 15\%, a model that predicts everyone does not churn achieves a
 raw accuracy of 85\%. This is clearly misleading because the classifier failed to predict 
-any positive cases (churns) which are the customers the company wants to identify so that
+any positive cases (churns). These positive cases are the customers the company actually wants to identify so that
 actions can be taken to keep them or future similar customers to stay.
 
 A metric that handles class imbalance well is Recall. Recall is a measure

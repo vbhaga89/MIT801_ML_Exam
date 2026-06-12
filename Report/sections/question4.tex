@@ -2,53 +2,50 @@
 
 \subsection{Question 4.1}
 
-\subsubsection*{a.}
+\begin{partquestion2}{a)}
 
 \textbf{Predicting probability of churn (0–1 output)}:
 
-The most appropriate loss function for predicting probability of churn would be Cross-Entropy.
+The most appropriate loss function for predicting probability of churn would be \textbf{Cross-Entropy}.
 The main reason is because cross entropy is used to measure how well a set of estimated
 class probabilities matches the target classes which is ideal because this is a classification problem.
 
 \textbf{Predicting next month’s revenue (rand amount)}:
 
-The most appropriate loss function for predicting next month's revenue would be Mean Squared Error (MSE).
+The most appropriate loss function for predicting next month's revenue would be \textbf{Mean Squared Error (MSE)}.
 The main reason is because the task is a regression problem and requires the prediction of a 
 continuous value which MSE can represent well as a loss.
 
 \textbf{SVM binary classifier ($y \in \{-1, +1\}$)}:
 
-The most appropriate loss function for a SVM binary classifier would be Hinge loss. Hinge loss is used
-because it sets margin violations to 0 if a point is not within the margin and on the correct side or else 
-it is proportional to the distance to the correct side of the margin boundaries which allows an SVM to 
+The most appropriate loss function for a SVM binary classifier would be \textbf{Hinge loss}. Hinge loss is used
+because it sets margin violations to 0 if a point is not within the margin and on the correct side. If it is not,
+it is then proportional to the distance to the correct side of the margin boundaries which allows an SVM to 
 create optimal hyperplane boundaries.
-
-\subsubsection*{b.}
-
-The binary cross-entropy loss is given as:
-\[\ell(z,y) = - [y \log(\hat{p}) + (1 - y) \log(1 - \hat{p})]\]
-
-and the goal is to show that:
-\[\frac{\partial \ell}{\partial z} = \frac{\partial \ell}{\partial \hat{p}} \times \frac{\partial \hat{p}}{\partial z} = \hat{p} - y \]
-
+\end{partquestion2}
+\newpage
+\partquestion{b)} The binary cross-entropy loss is given as:
+\[\ell(z,y) = - [y \log(\hat{p}) + (1 - y) \log(1 - \hat{p})],\]
+where $\hat{p}$ is:
+\[\hat{p} = \sigma(z) = \frac{1}{1+e^{-z}}.\]
+The goal is to show that:
+\[\frac{\partial \ell}{\partial z} = \frac{\partial \ell}{\partial \hat{p}} \times \frac{\partial \hat{p}}{\partial z} = \hat{p} - y .\]
 First, differentiate the loss function with respect to $\hat{p}$ (since $\hat{p}$ is a function of $z$):
 \[\frac{\partial \ell}{\partial \hat{p}} = - \left[\frac{y}{\hat{p}} + \frac{(1 - y)}{(1 - \hat{p})}\right] \]
-\[= \frac{(\hat{p} - y)}{\hat{p}(1 - \hat{p})}\]
-
+\[= \frac{(\hat{p} - y)}{\hat{p}(1 - \hat{p})}.\]
 Then also differentiate $\hat{p}$ with respect to $z$:
 \[\frac{\partial \hat{p}}{\partial z} = \frac{e^{-z}}{(1 + e^{-z})^2}\]
-\[= \hat{p}({1 - \hat{p}})\]
-
+\[= \hat{p}({1 - \hat{p}}).\]
 Therefore:
 \[\frac{\partial \ell}{\partial z} = \frac{\partial \ell}{\partial \hat{p}} \times \frac{\partial \hat{p}}{\partial z} = \frac{(\hat{p} - y)}{\hat{p}(1 - \hat{p})} \times \hat{p}({1 - \hat{p}})\]
-\[\underrightarrow{\frac{\partial \ell}{\partial z} = \hat{p} - y}\]
+\[\underrightarrow{\frac{\partial \ell}{\partial z} = \hat{p} - y}.\]
 
 \subsection{Question 4.2}
 
-For prediction score $\hat{y} \in [-2, 2]$ for the positive example ($y = 1$), use the following functions:
-\[\text{MSE} = (\hat{y} - y)^2\]
-\[\text{Cross-Entropy} = -\log(\sigma(\hat{y}))\]
-\[\text{Hinge} = \max(0, 1 - y\hat{y})\]
+For prediction score $\hat{y} \in [-2, 2]$ for the positive example ($y = 1$), the following functions were used:
+\[\text{MSE} = (\hat{y} - y)^2,\]
+\[\text{Cross-Entropy} = -\log(\sigma(\hat{y})),\]
+\[\text{Hinge} = \max(0, 1 - y\hat{y}).\]
 
 Using those loss functions and computing the loss based on the true value of 1 for all prediction scores ranging
 from -2 to 2, Figure \ref{fig:loss} was obtained:
@@ -59,7 +56,7 @@ from -2 to 2, Figure \ref{fig:loss} was obtained:
     \caption{MSE, Cross-Entropy, and Hinge Loss for a Positive Example (y = 1)}
     \label{fig:loss}
 \end{figure}
-
+\newpage
 From Figure \ref{fig:loss}, the MSE, cross-entropy and hinge loss can be seen when the true value
 was $y = 1$. MSE penalises predictions based on the squared distance from the true label which can be
 seen by the parabolic shape. Cross-entropy penalises predictions based on the sigmoid probability and

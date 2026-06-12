@@ -2,7 +2,7 @@
 
 \subsection{Question 6.1}
 
-\subsubsection*{a.}
+\begin{partquestion2}{a)}
 
 The True Positive Rate (TPR) is defined as follows:
 
@@ -21,8 +21,9 @@ The Receiver Operating Characteristic (ROC) curve, plots the TPR against the FPR
 varying classification thresholds. Moving along the curve from left to right represents decreasing the threshold from
 $+\infty$ to $-\infty$. Hence, a low threshold catches more churners but also results in more
 false alarms. A higher threshold reduces false alarms but ends up missing more actual churners.
+\end{partquestion2}
 
-\subsubsection*{b.}
+\begin{partquestion2}{b)}
 
 An AUC of 0.5 represents a random classifier. Hence it is no better than simply randomly guessing.
 In terms of the churn detection task it represents a classifier that has no real ability to 
@@ -31,8 +32,9 @@ discriminate churners from non-churners.
 Whereas, an AUC of 1 represents a perfect classifier. In terms of the churn detection task
 this would indicate a classifier that is able to perfectly discriminate between non-churners
 and churners.
+\end{partquestion2}
 
-\subsubsection*{c.}
+\begin{partquestion2}{c)}
 
 In this particular case, due to the constraint on the amount of retention offers that can be
 sent, precision would be a better metric than AUC. AUC is good for evaluating a model's 
@@ -47,6 +49,7 @@ In this case the Precision would be:
 This would indicate that of the flagged customers, only 28.6\% were actual churners. By optimising
 the Precision at a certain Recall level, one can reduce the false alarms and ensure the retention 
 offers stay below the threshold.
+\end{partquestion2}
 
 \subsection{Question 6.2}
 

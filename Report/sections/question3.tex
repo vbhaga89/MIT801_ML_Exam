@@ -2,47 +2,41 @@
 
 \subsection{Question 3.1}
 
-\subsubsection*{a.}
-
-The hard-margin SVM primal optimisation problem is given as follows:
-
+\partquestion{a)} The hard-margin SVM primal optimisation problem is given as follows:
 \[
 \begin{aligned}
 \min_{w,b} \quad & \frac{1}{2} ||w||^2\\
-\text{subject to} \quad & y_i(w^T x_i + b) \geq 1, \quad i = 1,2,\ldots,n
+\text{subject to} \quad & y_i(w^T x_i + b) \geq 1, \quad i = 1,2,\ldots,n.
 \end{aligned}
 \]
+In terms of the margin, you get the functional margin and the geometric margin. The function margin
+is equivalent to:
+\[\text{Functional Margin} = y\hat{y} = y(w^Tx_i + b).\]
+The functional margin measures if a point is on the correct side of the boundary and how confident the
+prediction is. The geometric margin measures the real geometric distance from a point to the hyperplane:
+\[\text{Geometric Margin} = \frac{y(w^Tx_i + b)}{||w||}.\]
+Hence, the full margin width is given by:
+\[\frac{2}{||w||}.\]
 
-The margin is inversely related to the length of $w$. The distance between the decision
-boundary and the closest points is:
-\[\frac{1}{||w||}\]
-
-Therefore, the full margin width is given by:
-\[\frac{2}{||w||}\]
-
-\subsubsection*{b.}
-
-The support vectors are the training points that are closest to the hyperplane that separates
+\partquestion{b)} The support vectors are the training points that are closest to the hyperplane that separates
 the classes. The margin is determined based on these points of which the margin boundaries lie
 exactly on these points. Hence, the support vectors determine the position and orientation of the
 maximum margin hyperplane that best separates the classes. These points only matter because
 they directly affect the margin whereas points far from the margin do not affect the optimal 
 separating hyperplane if they are moved or removed.
-
-\subsubsection*{c.}
-
-For the soft margin objective, the slack variable measures how much each instance is allowed
+\newpage
+\partquestion{c)} For the soft margin objective, the slack variable measures how much each instance is allowed
 to violate the margin. As a result, there are two conflicting objectives in that as we want
 to reduce margin violations while ensuring the biggest margin. The $C$ hyperparameter allows
 us to define the trade-off between these two objectives. By increasing C, the model 
 penalises margin violations more strongly, thus resulting in a smaller margin but less
-margin violations. Thus, effectively, it reduces the size of the boundary.
+margin violations. Thus, effectively, it reduces the size of the boundary and hence increases
+the risk of overfitting.
 
 \subsection{Question 3.2}
 
-\subsubsection*{a.}
 
-The RBF kernel maps the input data into an infinite-dimensional feature space. This is because
+\begin{partquestion2}{a)} The RBF kernel maps the input data into an infinite-dimensional feature space. This is because
 the mapping is performed by measuring the similarity between two data points based on their
 Euclidean distance. Its mathematical definition is called the Taylor series expansion which allows
 the $exp$ term in the kernel to be written as infinite sum of polynomial terms.
@@ -55,8 +49,9 @@ linear relationship. For example, a customer may only churn if their monthly bil
 they have many support calls \textbf{and} they do not have a fixed contract. The RBF kernel
 hence allows the SVM to capture these interactions between features without having to manually
 create these interactions.
+\end{partquestion2}
 
-\subsubsection*{b.}
+\begin{partquestion2}{b)}
 
 The \textbf{gamma='scale'} computes the following:
 
@@ -72,53 +67,15 @@ values represent 'close' whereas low values represent 'far'. Hence, very large g
 result in a decision boundary that will be very tight around individual data point (complex boundary). This leads
 to an increased risk of overfitting. A very small gamma value results in smoother and less complex decision boundaries. This
 leads to an increased risk of underfitting.
+\end{partquestion2}
 
-\subsubsection*{c.}
+\begin{partquestion2}{c)}
 
-The code used to execute the grid seach can be seen on the following page in Listing 1. The \emph{GridSearchCV}
+The code used to execute the grid seach can be seen in the Appendix under Listing \ref{lst:grid}. The \emph{GridSearchCV}
 class was used from \emph{sklearn}. In addition, \emph{StratifiedKFold} was also used
 to ensure splits have the correct class distributions. Lastly the best parameter configuration
 was based on the AUC of the ROC curve.
 
 After running the grid search, the best parameter configuration was found to be:
-
 \[[C = 0.1, \gamma = 1]\]
-
-
-\newpage
-
-\begin{lstlisting}[language=Python, caption={Grid search for RBF-SVM hyperparameter tuning}]
-rom sklearn.model_selection import GridSearchCV, StratifiedKFold
-
-# Define values to search C and gamma
-param_grid = {
-    'C': [0.1, 1, 10],
-    'gamma': [0.01, 0.1, 1]
-}
-
-# Create model
-svm = SVC(
-    kernel="rbf",
-    probability=True,
-    random_state=42
-)
-
-# Define cross validation with stratification (ensures class balance in splits)
-cv = StratifiedKFold(
-    n_splits=5,
-    shuffle=True,
-    random_state=42
-)
-
-# Create grid search class using AUC of ROC curve as scoring metric
-grid = GridSearchCV(
-    estimator=svm,
-    param_grid=param_grid,
-    scoring='roc_auc',
-    cv=cv,
-    n_jobs=-1
-)
-
-grid.fit(X_train, y_train)
-print("Best parameters:", grid.best_params_)
-\end{lstlisting}
+\end{partquestion2}

@@ -55,6 +55,18 @@
     urlcolor=blue
 ]{hyperref}
 
+\newcommand{\partquestion}[1]{%
+    \noindent
+    \hangindent=2.2em
+    \hangafter=1
+    \textbf{#1}\quad
+}
+
+\newenvironment{partquestion2}[1]
+{\begin{list}{}{\leftmargin=2.2em \labelwidth=2.2em \labelsep=0em}
+ \item[\textbf{#1}\quad]}
+{\end{list}}
+
 % Custom column type
 \newcolumntype{Y}{>{\raggedright\arraybackslash}X}
 

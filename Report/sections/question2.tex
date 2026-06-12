@@ -2,43 +2,31 @@
 
 \subsection{Question 2.1}
 
-\subsubsection*{a.}
-
-Batch gradient descent update rule:
-\[w^{(k+1)} = w^{(k)} - \eta \nabla L(w^{(k)})\]
-
+\partquestion{a)} Batch gradient descent update rule:
+\[w^{(k+1)} = w^{(k)} - \eta \nabla L(w^{(k)}),\]
 where $L(w)$ is the average loss over all training examples:
-\[w^{(k+1)} = w^{(k)} - \eta \frac{1}{n} \sum_{i=1}^{n} \nabla_{w} \ell(w^{(k)}; x_i; y_i)\]
-
+\[w^{(k+1)} = w^{(k)} - \eta \frac{1}{n} \sum_{i=1}^{n} \nabla_{w} \ell(w^{(k)}; x_i; y_i).\]
 SGD update rule uses only one randomly selected training point ($x_i,y_i$) at each step:
-\[w^{(k+1)} = w^{(k)} - \eta \nabla_w \ell(w^{(k)};x_i;y_i)\]
-
+\[w^{(k+1)} = w^{(k)} - \eta \nabla_w \ell(w^{(k)};x_i;y_i).\]
 In both equations, $k$ represents the step and $\eta$ represents the step size.
-
 The main difference between batch gradient descent and SGD is for batch gradient descent,
 all $n$ training examples is used to compute the gradient whereas with SDG, only one random 
 training example is used at a time. This results in SGD being a lot faster than batch gradient
 descent but also a lot noisier than batch gradient descent.
 
-\subsubsection*{b.}
-
-For the squared loss $\ell(w;x_i;y_i) = (w^{T}x_i - y_i)^2$, the gradient for a single example ($x_i,y_i$) is:
+\partquestion{b)} For the squared loss $\ell(w;x_i;y_i) = (w^{T}x_i - y_i)^2$, the gradient for a single example ($x_i,y_i$) is:
 \[\nabla_w\ell(w;x_i;y_i) = 2x_i(w^{T}x_i - y_i)\]
-
 Thus, the update rule for squared loss is:
 \[w^{(k+1)} = w^{(k)} - 2\eta x_i({w^{(k)}}^{T}x_i - y_i)\]
 
-\subsubsection*{c.}
-
-When the learning rate is too large, the updates will bounce around the minimum, 
+\partquestion{c)} When the learning rate is too large, the updates will bounce around the minimum, 
 resulting in overshooting the minimum. This results in the loss oscillating or even 
 diverging. On the other hand, when the learning rate is too small, convergence will be 
 really slow because each update will only make a very small change to the weights.
 
 \subsection{Question 2.2}
 
-\subsubsection*{a.}
-Machine learning algorithms and in this case a logistic regression model using SGD do no 
+\begin{partquestion2}{a)} Machine learning algorithms and in this case a logistic regression model using SGD do no 
 perform well when input numerical features have very different scales. In this particular
 scenario, SGD updates the model weights using gradients. This is an issue if not scaled because
 the size of each gradient depends on the scale of the input features. 
@@ -52,26 +40,22 @@ gradient descent move in an inefficient zig-zag pattern.
 By standardising, features are made to have 0 mean and unit variance (standard deviation of 1). 
 This improves the gradient geometry since the loss surface is now scaled across all dimensions.
 Hence, SGD can take more balanced steps towards the minimum.
+\end{partquestion2}
 
-\subsubsection*{b.}
-
-The logistic loss for a single example of ($x_i,y_i$) where $\hat{p_i} = \sigma(w^Tx_i)$ and
+\partquestion{b)} The logistic loss for a single example of ($x_i,y_i$) where $\hat{p_i} = \sigma(w^Tx_i)$ and
 $\sigma(z) = 1/(1+e^{-z})$ is:
 \[\ell(w;x_i;y_i) = - [y_i \log(\hat{p_i}) + (1 - y_i) \log(1 - \hat{p_i})]\]
-
 After substituting in $\hat{p_i}$:
 \[\ell(w;x_i;y_i) = - [y_i \log(\sigma(w^Tx_i)) + (1 - y_i) \log(1 - \sigma(w^Tx_i))]\]
 
-\subsubsection*{c.}
-
-Yes it can and should be used in this particular churn dataset. The churn dataset is
+\begin{partquestion2}{c)} Yes it can and should be used in this particular churn dataset. The churn dataset is
 imbalanced. Without class balancing, the model may be more biased towards predicting
 the majority class which is non-churners. This can lead to a high overall accuracy but 
 poor performance of the positive (minority) class which is churners.
-
+\newpage
 By setting \textbf{class\_weight = 'balanced'}, the model uses the 
 target variable, y, to automatically adjust the weights inversely proportional to the
 class frequencies in the input data. As a result, more weight is given to the positive
 (minority) class during training. This, in turn, results in the model penalising mistakes
 on churners more heavily which encourages the model to pay more attention to identifying churners.
-
+\end{partquestion2}

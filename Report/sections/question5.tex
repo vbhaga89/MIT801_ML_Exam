@@ -2,7 +2,7 @@
 
 \subsection{Question 5.1}
 
-\subsubsection*{a.}
+\begin{partquestion2}{a)}
 
 Principal Component Analysis (PCA) is a dimensionality reduction algorithm that
 tries to find hyperplanes (axis) that preserves the maximum amount of variance. Hence, the goal
@@ -28,11 +28,10 @@ The PCA objective is:
 \]
 
 where $W$ contains the first $k$ principal component directions, $W^TW = I$ means the components
-are orthonormal and $Tr(W^TX^TXW)$ is the total variance captured by the $k$ components
+are orthonormal and $Tr(W^TX^TXW)$ is the total variance captured by the $k$ components.
+\end{partquestion2}
 
-\newpage 
-
-\subsubsection*{b.}
+\begin{partquestion2}{b)}
 
 Figure \ref{fig:pca} illustrates the graph of the explained variance ratio of each component
 of PCA that was applied on the churn training data:
@@ -48,10 +47,9 @@ From Figure \ref{fig:pca}, it can be seen that each component has a decent level
 variance. As a result, the minimum number of components needed to retain at least 90\% of the total
 variance is 4 components. For this dataset, PCA does not reduce the number of features if
 at least 90\% of the variance is required to be retained.
+\end{partquestion2}
 
-\subsubsection*{c.}
-
-PCA should be fitted after the train/test split. The principal components must be obtained
+\partquestion{c)} PCA should be fitted after the train/test split. The principal components must be obtained
 purely based on the training data alone and then only applied to the test set when testing is
 done. If the training and test set is used to find the principal components this leads to 
 data leakage because the variance from the test set plays a role which is something that would
